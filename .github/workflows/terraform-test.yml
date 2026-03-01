@@ -21,6 +21,10 @@ jobs:
   triage:
     runs-on: ${{ inputs.runs_on }}
 
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
