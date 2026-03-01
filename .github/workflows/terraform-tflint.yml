@@ -56,7 +56,7 @@ jobs:
         run: tflint -f junit > tflint-report.xml
 
       - name: PWD
-        run: pwd && la -la
+        run: pwd && ls -la
 
       - name: Publish TFLint Results
         uses: EnricoMi/publish-unit-test-result-action@v2
