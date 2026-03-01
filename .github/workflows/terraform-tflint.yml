@@ -43,10 +43,6 @@ jobs:
           tflint_version: ${{ inputs.tflint_version }}
           tflint_config_path: ${{ inputs.tflint_config_path }}
 
-      - name: Change directory
-        if: inputs.terraform_path != '.'
-        run: cd ${{ inputs.terraform_path }}
-
       - name: Show version
         run: tflint --version
 
@@ -58,6 +54,9 @@ jobs:
 
       - name: Run TFLint
         run: tflint -f junit > tflint-report.xml
+
+      - name: PWD
+        run: pwd && la -la
 
       - name: Publish TFLint Results
         uses: EnricoMi/publish-unit-test-result-action@v2
