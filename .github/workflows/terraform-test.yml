@@ -11,13 +11,6 @@ on:
         required: false
         type: string
         default: .
-    secrets:
-      azure_client_id:
-        required: true
-      azure_tenant_id:
-        required: true
-      azure_subscription_id:
-        required: true
 
 jobs:
   terraform-testing:
@@ -41,15 +34,8 @@ jobs:
         with:
           terraform_version: ${{ inputs.terraform_version }}
 
-      - name: Azure login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.azure_client_id }}
-          tenant-id: ${{ secrets.azure_tenant_id }}
-          subscription-id: ${{ secrets.azure_subscription_id }}
-
       - name: Terraform Init
-        run: terraform init -input=false
+        run: terraform init -input=false -backend=false
 
       - name: Terraform Format
         run: terraform fmt -check
