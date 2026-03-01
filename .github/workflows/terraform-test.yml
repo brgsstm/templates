@@ -1,5 +1,6 @@
 on:
   workflow_call:
+    
     inputs:
       runs_on:
         required: true

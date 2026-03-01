@@ -7,6 +7,9 @@ on:
       terraform_version:
         required: true
         type: string
+      deploy_branch:
+        required: true
+        type: string
     secrets:
       azure_client_id:
         required: true
@@ -16,13 +19,17 @@ on:
         required: true
 
 jobs:
-  terraform-testing:
-    name: Terraform Testing Workflow Template
-    runs-on: ${{ inputs.runs_on }}
+  terraform-deploy:
+    name: "Terraform Deploy"
+    runs-on: ubuntu-latest
 
     permissions:
       id-token: write
       contents: read
+
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Checkout
@@ -48,3 +55,7 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -input=false -out=tfplan
+
+      - name: Terraform Apply
+        if: github.ref == format('refs/heads/{0}', inputs.deploy_branch)
+        run: terraform apply -auto-approve -input=false tfplan
