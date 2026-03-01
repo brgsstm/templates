@@ -1,23 +1,15 @@
+name: Reusable workflow example
+
 on:
   workflow_call:
-    inputs:
-      terraform_version:
-        description: "The version of Terraform to use"
+    secrets:
+      token:
         required: true
 
 jobs:
-  terraform-test:
+  triage:
+    runs-on: ubuntu-latest
     steps:
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+      - uses: actions/labeler@v6
         with:
-          terraform_version: ${{ inputs.terraform_version }}
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Format
-        run: terraform fmt -check
-
-      - name: Terraform Plan
-        run: terraform plan -input=false -out=tfplan
+          repo-token: ${{ secrets.token }}
