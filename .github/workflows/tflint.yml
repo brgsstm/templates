@@ -1,0 +1,60 @@
+on:
+  workflow_call:
+    inputs:
+      runs_on:
+        required: true
+        type: string
+      tflint_version:
+        required: true
+        type: string
+      tflint_config_path:
+        required: true
+        type: string
+    secrets:
+      azure_client_id:
+        required: true
+      azure_tenant_id:
+        required: true
+      azure_subscription_id:
+        required: true
+      github_token:
+        required: true
+
+jobs:
+  tflint:
+    name: TFLint Workflow Template
+    runs-on: ${{ inputs.runs_on }}
+
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout source code
+
+      - uses: terraform-linters/setup-tflint@v6
+        name: Setup TFLint
+        with:
+          tflint_version: ${{ inputs.tflint_version }}
+          tflint_config_path: ${{ inputs.tflint_config_path }}
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+        env:
+          # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+
+      - name: Run TFLint
+        run: tflint -f junit > tflint-report.xml
+
+      - name: Publish TFLint Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: (!cancelled())
+        with:
+          files: tflint-report.xml
