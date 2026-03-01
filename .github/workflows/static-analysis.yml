@@ -23,7 +23,7 @@ env:
 
 jobs:
   snyk-iac:
-    name: Snyk IaC
+    name: Snyk IaC Workflow Template
     runs-on: ${{ inputs.runs_on }}
 
     permissions:
