@@ -10,13 +10,6 @@ on:
       tflint_config_path:
         required: true
         type: string
-    secrets:
-      azure_client_id:
-        required: true
-      azure_tenant_id:
-        required: true
-      azure_subscription_id:
-        required: true
 
 jobs:
   tflint:
