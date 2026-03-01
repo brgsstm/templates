@@ -7,6 +7,10 @@ on:
       terraform_version:
         required: true
         type: string
+      terraform_path:
+        required: false
+        type: string
+        default: .
       deploy_branch:
         required: true
         type: string
@@ -21,7 +25,7 @@ on:
 jobs:
   terraform-deploy:
     name: "Terraform Deploy Workflow Template"
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs_on }}
 
     permissions:
       id-token: write
@@ -30,6 +34,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ${{ inputs.terraform_path }}
 
     steps:
       - name: Checkout
