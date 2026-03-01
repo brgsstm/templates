@@ -7,6 +7,10 @@ on:
       terraform_version:
         required: true
         type: string
+      terraform_path:
+        required: false
+        type: string
+        default: .
     secrets:
       azure_client_id:
         required: true
@@ -32,6 +36,10 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: ${{ inputs.terraform_version }}
+
+      - name: Change directory
+        if: inputs.terraform_path != '.'
+        run: cd ${{ inputs.terraform_path }}
 
       - name: Azure login
         uses: azure/login@v2
