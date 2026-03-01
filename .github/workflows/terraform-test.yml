@@ -22,7 +22,6 @@ jobs:
         working-directory: ${{ inputs.terraform_path }}
 
     permissions:
-      id-token: write
       contents: read
 
     steps:
