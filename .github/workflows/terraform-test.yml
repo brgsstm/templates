@@ -17,6 +17,7 @@ on:
 
 jobs:
   terraform-testing:
+    name: Terraform Testing Workflow Template
     runs-on: ${{ inputs.runs_on }}
 
     permissions:
