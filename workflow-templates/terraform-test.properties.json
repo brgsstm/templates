@@ -1,7 +1,0 @@
-{
-    "name": "Terraform Testing Workflow",
-    "description": "Terraform Testing Workflow for GitHub Actions.",
-    "categories": [
-        "Terraform"
-    ]
-}
