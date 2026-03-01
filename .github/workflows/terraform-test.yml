@@ -1,4 +1,4 @@
-name: Reusable workflow example
+name: Reusable Terraform Testing Workflow
 
 on:
   workflow_call:
@@ -18,7 +18,8 @@ on:
         required: true
 
 jobs:
-  triage:
+  terraform-testing:
+    name: Terraform Testing
     runs-on: ${{ inputs.runs_on }}
 
     permissions:
