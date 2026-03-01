@@ -1,0 +1,50 @@
+on:
+  workflow_call:
+    inputs:
+      runs_on:
+        required: true
+        type: string
+      snyk_branch:
+        required: true
+        type: string
+    secrets:
+      azure_client_id:
+        required: true
+      azure_tenant_id:
+        required: true
+      azure_subscription_id:
+        required: true
+      snyk_token:
+        required: true
+
+env:
+  # only publish to Snyk on main branch
+  additional_snyk_args: ${{ github.ref == format('refs/heads/{0}', inputs.snyk_branch) && '--report' || '' }}
+
+jobs:
+  snyk-iac:
+    name: Snyk IaC
+    runs-on: ${{ inputs.runs_on }}
+
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Snyk to check Terraform configuration for issues
+        uses: snyk/actions/iac@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.snyk_token }}
+        with:
+          args: --severity-threshold=high ${{ env.additional_snyk_args }}
+          file: .
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: snyk.sarif
+          category: "Snyk Infrastructure as Code"
