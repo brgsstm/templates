@@ -10,10 +10,6 @@ on:
       tflint_config_path:
         required: true
         type: string
-      terraform_path:
-        required: false
-        type: string
-        default: .
     secrets:
       azure_client_id:
         required: true
