@@ -17,8 +17,6 @@ on:
         required: true
       azure_subscription_id:
         required: true
-      github_token_secret:
-        required: true
 
 jobs:
   tflint:
@@ -48,7 +46,7 @@ jobs:
         run: tflint --init
         env:
           # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
-          GITHUB_TOKEN: ${{ secrets.github_token }}
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run TFLint
         run: tflint -f junit > tflint-report.xml
