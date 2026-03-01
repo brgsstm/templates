@@ -20,7 +20,7 @@ on:
 
 jobs:
   terraform-deploy:
-    name: "Terraform Deploy"
+    name: "Terraform Deploy Workflow Template"
     runs-on: ubuntu-latest
 
     permissions:
