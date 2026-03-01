@@ -7,6 +7,10 @@ on:
       snyk_branch:
         required: true
         type: string
+      iac_path:
+        required: false
+        type: string
+        default: .
     secrets:
       snyk_token:
         required: true
