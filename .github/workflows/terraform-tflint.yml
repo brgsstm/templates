@@ -53,10 +53,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run TFLint
-        run: tflint -f junit > tflint-report.xml
-
-      - name: PWD
-        run: pwd && ls -la
+        run: tflint --recursive -f junit > tflint-report.xml
 
       - name: Publish TFLint Results
         uses: EnricoMi/publish-unit-test-result-action@v2
