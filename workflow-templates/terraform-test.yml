@@ -5,6 +5,8 @@ on:
         description: "The version of Terraform to use"
         required: true
 
+jobs:
+  terraform-test:
     steps:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
